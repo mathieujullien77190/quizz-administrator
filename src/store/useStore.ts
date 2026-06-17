@@ -1,0 +1,85 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { TileLayer } from "./types";
+import type { Store } from "./types";
+import {
+  startDrawing, stopDrawing, addPoint,
+  setTileLayer,
+  deleteRoute, toggleRouteVisibility, renameRoute, optimizeRoute,
+  startPlacingQuestion, placeQuestion, deleteQuestion,
+  updateQuestionName, updateQuestionText, updateAnswer,
+  setCorrectAnswers, setQuestionType, toggleQuestionVisibility,
+  startPlacingCulture, placeCulture, deleteCulture,
+  updateCultureName, updateCultureText, toggleCultureVisibility,
+  startPlacingPlace, placePlace, deletePlace,
+  updatePlaceName, updatePlaceDescription, updatePlaceType,
+  updatePlaceRating, togglePlaceVisibility,
+} from "./actions";
+
+export const useStore = create<Store>()(
+  persist(
+    (set) => ({
+      isDrawing: false,
+      points: [],
+      tileLayer: TileLayer.OSM,
+      routes: [],
+      routeCounter: 0,
+      isPlacingQuestion: false,
+      questions: [],
+      questionCounter: 0,
+      isPlacingCulture: false,
+      cultures: [],
+      cultureCounter: 0,
+      isPlacingPlace: false,
+      places: [],
+      placeCounter: 0,
+      fitBoundsRevision: 0,
+
+      startDrawing: startDrawing(set),
+      stopDrawing: stopDrawing(set),
+      addPoint: addPoint(set),
+      setTileLayer: setTileLayer(set),
+      deleteRoute: deleteRoute(set),
+      toggleRouteVisibility: toggleRouteVisibility(set),
+      renameRoute: renameRoute(set),
+      optimizeRoute: optimizeRoute(set),
+      startPlacingQuestion: startPlacingQuestion(set),
+      placeQuestion: placeQuestion(set),
+      deleteQuestion: deleteQuestion(set),
+      updateQuestionName: updateQuestionName(set),
+      updateQuestionText: updateQuestionText(set),
+      updateAnswer: updateAnswer(set),
+      setCorrectAnswers: setCorrectAnswers(set),
+      setQuestionType: setQuestionType(set),
+      toggleQuestionVisibility: toggleQuestionVisibility(set),
+      startPlacingCulture: startPlacingCulture(set),
+      placeCulture: placeCulture(set),
+      deleteCulture: deleteCulture(set),
+      updateCultureName: updateCultureName(set),
+      updateCultureText: updateCultureText(set),
+      toggleCultureVisibility: toggleCultureVisibility(set),
+      startPlacingPlace: startPlacingPlace(set),
+      placePlace: placePlace(set),
+      deletePlace: deletePlace(set),
+      updatePlaceName: updatePlaceName(set),
+      updatePlaceDescription: updatePlaceDescription(set),
+      updatePlaceType: updatePlaceType(set),
+      updatePlaceRating: updatePlaceRating(set),
+      togglePlaceVisibility: togglePlaceVisibility(set),
+    }),
+    {
+      name: "quizz-admin",
+      partialize: (state) => ({
+        routes: state.routes,
+        routeCounter: state.routeCounter,
+        questions: state.questions,
+        questionCounter: state.questionCounter,
+        cultures: state.cultures,
+        cultureCounter: state.cultureCounter,
+        places: state.places,
+        placeCounter: state.placeCounter,
+        tileLayer: state.tileLayer,
+      }),
+    }
+  )
+);
